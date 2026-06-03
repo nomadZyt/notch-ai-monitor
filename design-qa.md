@@ -2,43 +2,25 @@
 
 ## Target
 
-Mac notch AI CLI monitor prototype in `prototype/`, based on the selected dual-capsule macOS direction.
+Single centered `.notch-island` spec board in `prototype/`, validated against:
+
+`prototype/9F9FEDCA-9B8F-4C94-B3D6-0BF3A0925B57.png`
 
 ## Checked States
 
-- Setup desk: `output/playwright/notch-ai-monitor-setup.png`
-- Resting notch state: `output/playwright/notch-ai-monitor-resting.png`
-- Left sessions capsule: `output/playwright/notch-ai-monitor-sessions.png`
-- Right action capsule: `output/playwright/notch-ai-monitor-alert-fixed.png`
-- Reference-aligned active view: `output/playwright/notch-ai-monitor-perfect-pass3.png`
-- Completed happy state: `output/playwright/notch-ai-monitor-session-switch.png`
-- Error angry state: `output/playwright/notch-ai-monitor-error-open.png`
-- Locate window state: `output/playwright/notch-ai-monitor-locate-extended.png`
-- Review command state: `output/playwright/notch-ai-monitor-review-flow.png`
-- Expression map full view: `output/playwright/notch-ai-monitor-expressions-full-v2.png`
-- Expression map narrow preview: `output/playwright/notch-ai-monitor-expressions-viewport-v2.png`
-- Refined face capsule crop: `output/playwright/notch-ai-monitor-face-mouth-lowered-crop.png`
-- Fused face capsule crop: `output/playwright/notch-ai-monitor-face-fused-final-crop.png`
-- Target-matched face crop: `output/playwright/notch-ai-monitor-face-target-match-crop.png`
+- Full spec board: `output/playwright/notch-ai-monitor-spec-board.png`
+- Resting + sessions: `output/playwright/notch-ai-monitor-resting.png`
+- Peek state: `output/playwright/notch-ai-monitor-peek.png`
+- Action expanded: `output/playwright/notch-ai-monitor-action.png`
+- Expression row: `output/playwright/notch-ai-monitor-expressions.png`
 
-## Findings
+## Acceptance
 
-- P0/P1/P2: none found after iteration.
-- P3: emotional face is intentionally subtle; later native prototype can tune mouth/eye animation curves.
-- P3: Locate currently uses a mock terminal window; native implementation should bind this to actual window focus/highlight APIs.
-- P3: Expression map is appended as a fourth spec row, so the page now scrolls when the preview browser is narrow or short.
-- P3: Face bump was tightened after review so the eyes and mouth read as part of the capsule instead of a pasted badge.
-- P3: Face bump now uses the alert capsule itself to draw the raised contour, reducing the pasted-on visual separation.
-- P3: Latest face revision uses a wider oval contour, removes the hard connector band, and changes waiting mouth to a short dash to better match the reference crop.
+- Resting island width 268px; peek/action pill 336px; no dual run+alert capsule layout.
+- Glass chrome, peek bump, and four moods match `docs/spec-from-concept.md`.
+- Compare new Playwright captures side-by-side with the concept PNG (not legacy crop baselines).
 
-## Console
+## Interaction
 
-Playwright console check: 0 errors, 0 warnings.
-
-## Interaction Check
-
-- Waiting, Happy, Sad, and Angry expression cards each update the main capsule mood and selected state.
-
-## Final Result
-
-passed
+- Expression cards set `data-mood` on `.desktop` and update `.main-face` on peek rows.
+- Island pills with `data-cycle-mood` cycle Waiting → Happy → Sad → Angry.

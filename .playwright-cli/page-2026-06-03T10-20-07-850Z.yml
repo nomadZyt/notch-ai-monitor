@@ -1,0 +1,132 @@
+- main [ref=e2]:
+  - generic "macOS menu bar" [ref=e4]:
+    - generic [ref=e5]:
+      - strong [ref=e7]: Finder
+      - generic [ref=e8]: File
+      - generic [ref=e9]: Edit
+      - generic [ref=e10]: View
+      - generic [ref=e11]: Go
+      - generic [ref=e12]: Window
+      - generic [ref=e13]: Help
+    - generic [ref=e18]: Tue 10:42 AM
+  - region "Notch AI monitor states" [ref=e21]:
+    - article [ref=e22]:
+      - generic [ref=e23]:
+        - heading "1. Resting island" [level=2] [ref=e24]
+        - paragraph [ref=e25]:
+          - text: Default compact state.
+          - text: Icons, pulse, badge only.
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - button "Resting island" [ref=e28] [cursor=pointer]:
+            - generic [ref=e29]:
+              - generic [ref=e30]: CL
+              - generic [ref=e31]: CO
+            - generic [ref=e33]: "2"
+          - region "Sessions" [ref=e34]:
+            - button "CL Claude CLI Running iTerm · autoXhs 12m" [ref=e36]:
+              - generic [ref=e37]: CL
+              - generic [ref=e38]:
+                - generic [ref=e39]:
+                  - strong [ref=e40]: Claude CLI
+                  - generic [ref=e41]: Running
+                - generic [ref=e42]: iTerm · autoXhs
+              - generic [ref=e50]: 12m
+            - button "CO Codex CLI Running Terminal · wBot 8m" [ref=e52]:
+              - generic [ref=e53]: CO
+              - generic [ref=e54]:
+                - generic [ref=e55]:
+                  - strong [ref=e56]: Codex CLI
+                  - generic [ref=e57]: Running
+                - generic [ref=e58]: Terminal · wBot
+              - generic [ref=e65]: 8m
+            - button "GE Gemini CLI Idle iTerm · mlPipe --" [ref=e67]:
+              - generic [ref=e68]: GE
+              - generic [ref=e69]:
+                - generic [ref=e70]:
+                  - strong [ref=e71]: Gemini CLI
+                  - emphasis [ref=e72]: Idle
+                - generic [ref=e73]: iTerm · mlPipe
+              - generic [ref=e80]: "--"
+            - generic [ref=e82]:
+              - generic [ref=e83]: 3 sessions
+              - generic [ref=e84]: Open Sessions...
+        - generic [ref=e85]: Compact and non-intrusive.
+    - article [ref=e87]:
+      - generic [ref=e88]:
+        - heading "2. Peek state" [level=2] [ref=e89]
+        - paragraph [ref=e90]:
+          - text: Attention is present.
+          - text: Eyes appear to peek out.
+      - generic [ref=e91]:
+        - button "Peek island" [ref=e93] [cursor=pointer]:
+          - generic [ref=e94]:
+            - generic [ref=e95]: CL
+            - generic [ref=e96]: CO
+          - generic [ref=e97]:
+            - generic [ref=e99]: Waiting for confirmation
+            - generic [ref=e100]: "2"
+            - generic [ref=e101]: Alerts
+        - generic [ref=e104]:
+          - text: Subtle peek to
+          - text: get attention.
+    - article [ref=e105]:
+      - generic [ref=e106]:
+        - heading "3. Expanded action capsule" [level=2] [ref=e107]
+        - paragraph [ref=e108]:
+          - text: Select the session and
+          - text: take action.
+      - generic [ref=e109]:
+        - generic [ref=e110]:
+          - button "Action island pill" [ref=e111] [cursor=pointer]:
+            - generic [ref=e112]:
+              - generic [ref=e113]: CL
+              - generic [ref=e114]: CO
+            - generic [ref=e115]:
+              - generic [ref=e117]: Waiting for confirmation
+              - generic [ref=e118]: "2"
+              - generic [ref=e119]: Alerts
+          - region "Quick actions" [ref=e120]:
+            - generic [ref=e121]:
+              - button "Qwen CLI" [ref=e122]
+              - button "Claude CLI" [ref=e123]
+              - button "Codex CLI" [ref=e124]
+            - paragraph [ref=e125]: Terminal · autoXhs
+            - strong [ref=e126]: Run generated command?
+            - generic [ref=e127]:
+              - button "Previous session" [ref=e128]: ‹
+              - generic [ref=e129]: 1 of 2
+              - button "Next session" [ref=e130]: ›
+            - generic [ref=e131]:
+              - button "Locate" [ref=e132]
+              - button "Review" [ref=e133]
+        - generic [ref=e136]:
+          - text: Integrated expansion
+          - text: for quick actions.
+    - article [ref=e137]:
+      - generic [ref=e138]:
+        - heading "4. Expression system" [level=2] [ref=e139]
+        - paragraph [ref=e140]:
+          - text: Facial tone maps to
+          - text: the session condition.
+      - generic "Expression state examples" [ref=e142]:
+        - button "Waiting Confirmation needed Ask user to review generated command." [ref=e143] [cursor=pointer]:
+          - generic [ref=e145]:
+            - strong [ref=e146]: Waiting
+            - generic [ref=e147]: Confirmation needed
+          - generic [ref=e148]: Ask user to review generated command.
+        - button "Happy Result is ready Session completed or produced useful output." [ref=e149] [cursor=pointer]:
+          - generic [ref=e151]:
+            - strong [ref=e152]: Happy
+            - generic [ref=e153]: Result is ready
+          - generic [ref=e154]: Session completed or produced useful output.
+        - button "Sad Error or timeout CLI failed, disconnected, or hit a timeout." [ref=e155] [cursor=pointer]:
+          - generic [ref=e157]:
+            - strong [ref=e158]: Sad
+            - generic [ref=e159]: Error or timeout
+          - generic [ref=e160]: CLI failed, disconnected, or hit a timeout.
+        - button "Angry Risk needs attention Dangerous command, repeated failure, or blocked run." [ref=e161] [cursor=pointer]:
+          - generic [ref=e163]:
+            - strong [ref=e164]: Angry
+            - generic [ref=e165]: Risk needs attention
+          - generic [ref=e166]: Dangerous command, repeated failure, or blocked run.
