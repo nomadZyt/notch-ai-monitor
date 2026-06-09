@@ -3,3 +3,6 @@ Thumbs.db
 *.log
 .env
 .env.*
+node_modules/
+apps/*/node_modules/
+apps/tauri/src-tauri/target/

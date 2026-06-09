@@ -1,0 +1,14 @@
+[package]
+name = "notch-ai-monitor-tauri"
+version = "0.1.0"
+description = "Tauri MVP host for Notch AI Monitor"
+authors = ["Notch AI Monitor"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2.6.2", features = [] }
+
+[dependencies]
+tauri = { version = "2.11.2", features = ["macos-private-api"] }
+serde = { version = "1.0", features = ["derive"] }
+signal-hook = "0.3.18"

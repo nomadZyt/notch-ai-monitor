@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Notch AI Monitor Tauri MVP",
+  "version": "0.1.0",
+  "identifier": "com.notch-ai-monitor.tauri-mvp",
+  "build": {
+    "beforeDevCommand": "",
+    "beforeBuildCommand": "",
+    "frontendDist": "../../desktop/dist",
+    "devUrl": null
+  },
+  "app": {
+    "windows": [],
+    "macOSPrivateApi": true,
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app"],
+    "icon": ["../../../release/build/NotchAI.iconset/icon_512x512.png"],
+    "category": "DeveloperTool",
+    "shortDescription": "Notch AI Monitor Tauri MVP host",
+    "longDescription": "A Tauri MVP host for the Notch AI Monitor macOS notch control surface."
+  }
+}

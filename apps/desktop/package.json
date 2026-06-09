@@ -1,0 +1,20 @@
+{
+  "name": "@notch-ai-monitor/desktop",
+  "version": "0.0.0-p0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/local-manager-mock && vite --host 127.0.0.1",
+    "build": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/local-manager-mock && npm run build:app",
+    "build:app": "tsc -p tsconfig.json && vite build",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.11.0",
+    "@notch-ai-monitor/local-manager-mock": "0.0.0-p0",
+    "@notch-ai-monitor/shared": "0.0.0-p0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.19"
+  }
+}

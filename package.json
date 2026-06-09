@@ -1,0 +1,32 @@
+{
+  "name": "notch-ai-monitor",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/risk-policy && npm run build -w @notch-ai-monitor/local-manager-mock && npm run build -w @notch-ai-monitor/local-manager-api && npm run build -w @notch-ai-monitor/cli-adapter-mock && npm run build -w @notch-ai-monitor/cli-adapter-real && npm run build:app -w @notch-ai-monitor/desktop",
+    "dev:api": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/risk-policy && npm run build -w @notch-ai-monitor/local-manager-mock && npm run build -w @notch-ai-monitor/local-manager-api && npm run serve -w @notch-ai-monitor/local-manager-api -- --host 127.0.0.1 --port 4317",
+    "dev:qa": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/risk-policy && npm run build -w @notch-ai-monitor/local-manager-mock && npm run build -w @notch-ai-monitor/local-manager-api && npm run dev -w @notch-ai-monitor/desktop -- --port 5174 --strictPort",
+    "dev:tauri": "npm run guard:design && npm run build && NOTCH_REPO_ROOT=$PWD NOTCH_NODE_BIN=$(command -v node) npm run dev -w @notch-ai-monitor/tauri-app",
+    "build:tauri-mvp": "npm run guard:design && npm run build && NOTCH_REPO_ROOT=$PWD npm run build -w @notch-ai-monitor/tauri-app",
+    "guard:design": "node scripts/design-surface-guard.mjs",
+    "package:mac": "npm run build:tauri-mvp",
+    "smoke:notch-run": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/cli-adapter-real && npm run smoke:live -w @notch-ai-monitor/cli-adapter-real -- --url http://127.0.0.1:4317",
+    "smoke:failed": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/cli-adapter-real && npm run smoke:failed -w @notch-ai-monitor/cli-adapter-real -- --url http://127.0.0.1:4317",
+    "smoke:resolve": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/cli-adapter-real && npm run smoke:resolve -w @notch-ai-monitor/cli-adapter-real -- --url http://127.0.0.1:4317",
+    "smoke:view-log": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/cli-adapter-real && npm run smoke:view-log -w @notch-ai-monitor/cli-adapter-real -- --url http://127.0.0.1:4317",
+    "smoke:codex": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/cli-adapter-real && npm run smoke:codex -w @notch-ai-monitor/cli-adapter-real -- --url http://127.0.0.1:4317",
+    "smoke:claude": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/cli-adapter-real && npm run smoke:claude -w @notch-ai-monitor/cli-adapter-real -- --url http://127.0.0.1:4317",
+    "smoke:real-link": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/risk-policy && npm run build -w @notch-ai-monitor/local-manager-mock && npm run build -w @notch-ai-monitor/local-manager-api && npm run build -w @notch-ai-monitor/cli-adapter-real && node scripts/real-link-beta-smoke.mjs",
+    "test": "npm run test -w @notch-ai-monitor/shared && npm run test -w @notch-ai-monitor/local-manager-mock && npm run test -w @notch-ai-monitor/risk-policy && npm run test -w @notch-ai-monitor/local-manager-api && npm run test -w @notch-ai-monitor/cli-adapter-mock && npm run test -w @notch-ai-monitor/cli-adapter-real",
+    "test:qa": "playwright test -c apps/desktop/tests/playwright.config.mjs",
+    "test:qa:real-link": "npm run build -w @notch-ai-monitor/shared && npm run build -w @notch-ai-monitor/risk-policy && npm run build -w @notch-ai-monitor/local-manager-mock && npm run build -w @notch-ai-monitor/local-manager-api && npm run build -w @notch-ai-monitor/cli-adapter-real && playwright test -c apps/desktop/tests/playwright.real-link.config.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^22.10.7",
+    "typescript": "^5.8.3"
+  }
+}
