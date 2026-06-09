@@ -1,0 +1,15 @@
+Bash: npm run test -w @notch-ai-monitor/cli-adapter-real
+Tool use: Bash(command: "git status --short")
+Command needing approval: `rm -rf ./tmp/generated && git clean -fd`
+Permission required to run: npm run build
+Do you want to proceed? npm run lint
+Task completed: updated adapter parser
+Done: wrote the fixture parser
+Result ready: generated monitor events
+Success: command finished
+Error: fixture failed
+Failed: shell command exited 1
+Traceback: ModuleNotFoundError: yaml
+Permission denied: cannot write /root/output
+I am checking the implementation details before editing.
+普通 assistant 文本，不应该产生事件。

@@ -1,0 +1,15 @@
+Proposed command: npm run test -w @notch-ai-monitor/cli-adapter-real
+Suggested command: git status --short
+Run command: node scripts/check-fixture.mjs
+Executing command: npm run build
+Requesting approval to run: `rm -rf ./tmp/generated && git clean -fd`
+Completed: indexed 42 files
+Done: wrote adapter fixture summary
+Result: emitted 3 Notch events
+Success: wrapper child exited cleanly
+Error: fixture child failed
+Failed: command exited with code 1
+Exception: parser could not decode JSON
+Fatal: child process crashed
+Streaming assistant text while I inspect the repository.
+I will look at the files first and then decide what to change.

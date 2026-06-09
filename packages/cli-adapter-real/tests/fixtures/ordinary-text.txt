@@ -1,0 +1,4 @@
+streaming ordinary assistant text
+I will inspect the repository and explain what I am doing.
+Here is the context I found in the file.
+No command is being executed yet.

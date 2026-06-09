@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Notch AI Monitor · v2 Prototype</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./interactive-v2.css" />
+  </head>
+  <body>
+    <main class="desktop-v2" data-state="dormant" data-mood="none" data-panel="none">
+      <div class="wallpaper" aria-hidden="true">
+        <div class="terminal-window primary-terminal">
+          <div class="window-bar"><span></span><span></span><span></span></div>
+          <div class="terminal-lines">
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+        <div class="terminal-window secondary-terminal">
+          <div class="window-bar"><span></span><span></span><span></span></div>
+          <div class="terminal-lines compact">
+            <i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+      </div>
+
+      <header class="menu-bar" aria-label="macOS menu bar">
+        <div class="menu-left">
+          <span class="apple-mark" aria-hidden="true"></span>
+          <strong>Finder</strong>
+          <span>File</span>
+          <span>Edit</span>
+          <span>View</span>
+          <span>Window</span>
+          <span>Help</span>
+        </div>
+        <div class="menu-right">
+          <span class="status-dot"></span>
+          <span class="status-word">AI Monitor</span>
+          <span class="wifi-mark" aria-hidden="true"></span>
+          <span class="battery-mark" aria-hidden="true"></span>
+          <span>Sat 11:42 AM</span>
+        </div>
+      </header>
+
+      <section class="notch-zone" id="notchZone" aria-label="Notch AI Monitor">
+        <div class="notch-hit" id="notchHit" aria-hidden="true"></div>
+
+        <button
+          class="side-capsule session-hub left-capsule"
+          id="leftCapsule"
+          type="button"
+          aria-controls="sessionsPanel"
+          aria-expanded="false"
+          aria-label="查看全部 AI 会话"
+        >
+          <span class="tool-stack" aria-hidden="true">
+            <i class="tool-mark claude">CL</i>
+            <i class="tool-mark codex">CX</i>
+            <i class="tool-mark qwen">QW</i>
+          </span>
+          <span class="capsule-copy">
+            <b id="sessionHubTitle">3 个会话</b>
+            <small id="sessionHubMeta">2 运行 · 4 事件</small>
+          </span>
+        </button>
+
+        <div class="notch" aria-hidden="true">
+          <span class="camera-dot"></span>
+          <span class="sleep-eye"></span>
+        </div>
+
+        <button
+          class="side-capsule alert-chip right-capsule"
+          id="rightCapsule"
+          type="button"
+          aria-controls="actionPanel"
+          aria-expanded="false"
+        >
+          <span class="signal-cluster" aria-hidden="true">
+            <span class="event-face">
+              <i class="eye left"><em class="tear"></em></i>
+              <i class="eye right"><em class="tear"></em></i>
+              <i class="mouth"></i>
+            </span>
+          </span>
+          <span class="capsule-copy alert-copy">
+            <b><span id="alertTitle">全部安静</span></b>
+            <small id="alertMeta">没有待处理事件</small>
+          </span>
+          <span class="event-count" id="eventCount">0</span>
+        </button>
+
+        <section class="surface-panel sessions-panel" id="sessionsPanel" aria-label="全部 AI 会话" tabindex="-1">
+          <header class="panel-head">
+            <div>
+              <p class="eyebrow">Session Hub</p>
+              <h2>全部会话</h2>
+            </div>
+            <span class="panel-badge" id="activeSessionBadge">3</span>
+          </header>
+          <div class="sessions-list" id="sessionsList"></div>
+          <footer class="panel-footer">
+            <button type="button" class="ghost-action" id="quietAllBtn">静音普通运行</button>
+            <button type="button" class="ghost-action" id="openPrefsBtn">偏好</button>
+          </footer>
+        </section>
+
+        <section class="surface-panel action-panel" id="actionPanel" aria-label="处理当前事件" tabindex="-1">
+          <header class="panel-head action-head">
+            <div>
+              <p class="eyebrow" id="eventKind">Event</p>
+              <h2 id="eventPanelTitle">当前没有事件</h2>
+              <small id="eventPanelMeta">AI 会话正常运行</small>
+            </div>
+            <span class="severity-chip" id="severityChip">none</span>
+          </header>
+
+          <nav class="session-tabs" id="sessionTabs" aria-label="按会话筛选"></nav>
+
+          <div class="event-body" id="eventBody"></div>
+
+          <div class="event-pager" aria-label="事件分页">
+            <button type="button" id="prevEvent" aria-label="上一条事件">‹</button>
+            <span id="pagerText">0 / 0</span>
+            <button type="button" id="nextEvent" aria-label="下一条事件">›</button>
+          </div>
+
+          <div class="action-buttons" id="actionButtons"></div>
+        </section>
+      </section>
+
+      <button class="demo-toggle" id="demoToggle" type="button" aria-expanded="false" aria-controls="demoTray">
+        演示
+      </button>
+
+      <aside class="demo-tray" id="demoTray" aria-label="原型演示控制台" aria-hidden="true">
+        <div class="demo-head">
+          <strong>原型场景</strong>
+          <button type="button" id="demoClose" aria-label="关闭演示控制台">×</button>
+        </div>
+        <div class="demo-grid" id="scenarioGrid">
+          <button type="button" data-scenario="idle">安静</button>
+          <button type="button" data-scenario="waiting">等待确认</button>
+          <button type="button" data-scenario="result">结果就绪</button>
+          <button type="button" data-scenario="error">错误</button>
+          <button type="button" data-scenario="risk">风险</button>
+          <button type="button" data-scenario="all">全部事件</button>
+        </div>
+        <div class="demo-row">
+          <button type="button" id="forcePeek">探出</button>
+          <button type="button" id="forceAction">操作面板</button>
+          <button type="button" id="resetEvents">重置队列</button>
+        </div>
+      </aside>
+
+      <div class="live-region" id="liveRegion" role="status" aria-live="polite"></div>
+      <div class="toast" id="toast" aria-hidden="true"></div>
+    </main>
+
+    <script src="./interactive-v2.js"></script>
+  </body>
+</html>

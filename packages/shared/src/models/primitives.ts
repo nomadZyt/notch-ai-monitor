@@ -1,0 +1,31 @@
+export type ISODateTimeString = string;
+
+export type ToolKind = "claude" | "codex" | "qwen" | "custom";
+
+export type SourceMode = "mock" | "fixture" | "wrapper" | "scan" | "live";
+
+export type SessionState =
+  | "idle"
+  | "running"
+  | "waiting"
+  | "blocked"
+  | "completed"
+  | "failed";
+
+export type EventType = "risk" | "confirm" | "result" | "error";
+export type EventStatus = "active" | "resolved" | "ignored" | "expired";
+export type RiskLevel = "low" | "medium" | "high" | "critical";
+
+export type ActionStyle = "primary" | "danger" | "secondary";
+
+export type SideEffect =
+  | "none"
+  | "clipboard"
+  | "process"
+  | "filesystem"
+  | "navigation";
+
+export type Mood = "none" | "waiting" | "happy" | "sad" | "angry";
+export type ShellState = "dormant" | "glance" | "peek" | "expanded";
+export type RestingShellState = Exclude<ShellState, "expanded">;
+export type PanelState = "none" | "sessions" | "action";

@@ -1,0 +1,35 @@
+{
+  "name": "@notch-ai-monitor/cli-adapter-real",
+  "version": "0.0.0-p1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js"
+    }
+  },
+  "bin": {
+    "notch-cli-adapter-real": "./dist/src/bin/real-cli-adapter.js",
+    "notch-run": "./dist/src/bin/notch-run.js",
+    "notch-run-smoke": "./dist/src/bin/notch-run-smoke.js",
+    "notch-action-smoke": "./dist/src/bin/notch-action-smoke.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build -w @notch-ai-monitor/shared && npm run build && node --test tests/*.test.mjs",
+    "send": "node dist/src/bin/real-cli-adapter.js",
+    "run": "node dist/src/bin/notch-run.js",
+    "smoke:live": "node dist/src/bin/notch-run-smoke.js",
+    "smoke:failed": "node dist/src/bin/notch-run-smoke.js --preset node-exit-7",
+    "smoke:resolve": "node dist/src/bin/notch-action-smoke.js",
+    "smoke:view-log": "node dist/src/bin/notch-action-smoke.js --action view-log",
+    "smoke:codex": "node dist/src/bin/notch-run-smoke.js --preset codex-version",
+    "smoke:claude": "node dist/src/bin/notch-run-smoke.js --preset claude-version"
+  },
+  "dependencies": {
+    "@notch-ai-monitor/shared": "0.0.0-p0"
+  }
+}

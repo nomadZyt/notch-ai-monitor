@@ -1,0 +1,1 @@
+{"version":3,"file":"process-persistence-store.d.ts","sourceRoot":"","sources":["../../src/process-persistence-store.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EACV,0BAA0B,EAC1B,uBAAuB,EACxB,MAAM,sCAAsC,CAAC;AAsB9C,qBAAa,+BAAgC,YAAW,uBAAuB;IACjE,OAAO,CAAC,QAAQ,CAAC,QAAQ;gBAAR,QAAQ,EAAE,MAAM;IAE7C,IAAI,IAAI,0BAA0B,GAAG,IAAI;IAOzC,IAAI,CAAC,QAAQ,EAAE,0BAA0B,GAAG,IAAI;CAUjD"}

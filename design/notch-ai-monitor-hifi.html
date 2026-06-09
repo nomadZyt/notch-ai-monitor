@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Notch AI Monitor · High Fidelity Directions</title>
+    <link rel="stylesheet" href="./notch-ai-monitor-hifi.css" />
+  </head>
+  <body>
+    <main class="board-shell">
+      <header class="board-hero">
+        <p class="kicker">High Fidelity Directions</p>
+        <h1>Notch AI Monitor</h1>
+        <p class="hero-copy">
+          面向 Mac 用户的低打扰 AI CLI 监视器。三套方向都保留当前 v2 原型的状态机和工作流，只调整视觉语言、空间密度、表情气质和面板层级。
+        </p>
+        <div class="brief-row" aria-label="设计约束">
+          <span>简单高级</span>
+          <span>低占用</span>
+          <span>DMG 表情形象</span>
+          <span>风险可信证据</span>
+          <span>可开发拆分</span>
+        </div>
+      </header>
+
+      <section class="direction quiet" id="quiet-glass">
+        <div class="direction-intro">
+          <div>
+            <p class="route-label">Direction 01</p>
+            <h2>Quiet Glass</h2>
+            <p>
+              最接近 macOS 原生气质：克制玻璃、低饱和情绪色、极简状态胶囊。适合第一版正式产品，风险最小。
+            </p>
+          </div>
+          <ul class="route-notes">
+            <li>胶囊更像菜单栏状态件</li>
+            <li>完成态温和，风险态只在必要时变强</li>
+            <li>面板以证据和动作优先</li>
+          </ul>
+        </div>
+        <div class="design-canvas quiet-canvas">
+          <div class="desktop-stage">
+            <div class="mac-bar">
+              <div class="bar-left"><b>Finder</b><span>File</span><span>Edit</span><span>View</span><span>Window</span></div>
+              <div class="bar-right"><i></i><span>AI Monitor</span><span>Sat 11:42 AM</span></div>
+            </div>
+            <div class="notch-system state-expanded">
+              <button class="mini-capsule sessions">
+                <span class="stack"><i>CL</i><i>CX</i><i>QW</i></span>
+                <b>3 会话</b>
+              </button>
+              <div class="notch"><span></span></div>
+              <button class="mini-capsule alert risk">
+                <span class="face angry"><i></i><i></i><b></b></span>
+                <strong>风险</strong>
+                <em>4</em>
+              </button>
+            </div>
+
+            <div class="panel action-panel">
+              <header>
+                <div>
+                  <p>Risk</p>
+                  <h3>已拦截危险命令</h3>
+                  <span>Qwen CLI · 刚刚</span>
+                </div>
+                <b>risk</b>
+              </header>
+              <nav>
+                <button class="selected">Qwen · 2</button>
+                <button>Codex · 1</button>
+                <button>Claude · 1</button>
+              </nav>
+              <div class="evidence-block">
+                <p>删除范围过大，可能影响草稿和未跟踪文件。</p>
+                <div class="command-line">rm -rf ~/Documents/xhs-drafts/* && git clean -fd</div>
+                <dl>
+                  <div><dt>原因</dt><dd>包含不可恢复删除和 git clean</dd></div>
+                  <div><dt>影响</dt><dd>xhs-drafts、当前仓库未跟踪文件</dd></div>
+                  <div><dt>撤销</dt><dd>无自动撤销，需要先备份</dd></div>
+                </dl>
+              </div>
+              <footer>
+                <span>1 / 4</span>
+                <div>
+                  <button class="danger">拒绝执行</button>
+                  <button class="primary">允许一次</button>
+                </div>
+              </footer>
+            </div>
+
+            <div class="session-panel panel">
+              <header>
+                <div>
+                  <p>Session Hub</p>
+                  <h3>全部会话</h3>
+                </div>
+                <b>3</b>
+              </header>
+              <div class="session-row selected"><i>QW</i><span><b>Qwen CLI</b><small>Terminal · autoXhs</small></span><em>2 待处理</em></div>
+              <div class="session-row"><i>CL</i><span><b>Claude CLI</b><small>iTerm · notch-ai-monitor</small></span><em>1 待处理</em></div>
+              <div class="session-row"><i>CX</i><span><b>Codex CLI</b><small>Terminal · wBot</small></span><em>运行中</em></div>
+            </div>
+          </div>
+          <div class="state-matrix">
+            <article><span class="sleep-line"></span><b>休眠</b><small>无事件，只保留刘海睡眠眼</small></article>
+            <article><div class="tiny-pill done"><span class="face happy"><i></i><i></i><b></b></span><b>完成</b><em>1</em></div><small>一瞥</small></article>
+            <article><div class="tiny-pill confirm"><span class="face waiting"><i></i><i></i><b></b></span><b>确认</b><em>2</em></div><small>探出</small></article>
+            <article><div class="tiny-pill error"><span class="face sad"><i></i><i></i><b></b></span><b>失败</b><em>1</em></div><small>错误</small></article>
+            <article><div class="tiny-pill risk"><span class="face angry"><i></i><i></i><b></b></span><b>风险</b><em>4</em></div><small>主动探出</small></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="direction precision" id="command-precision">
+        <div class="direction-intro">
+          <div>
+            <p class="route-label">Direction 02</p>
+            <h2>Command Precision</h2>
+            <p>
+              更偏专业开发者工具：状态胶囊像一条精密信号带，面板强调命令、影响范围和操作可逆性。
+            </p>
+          </div>
+          <ul class="route-notes">
+            <li>信息密度更高但边界清楚</li>
+            <li>风险审查更像安全控制台</li>
+            <li>适合技术型首批用户</li>
+          </ul>
+        </div>
+        <div class="design-canvas precision-canvas">
+          <div class="desktop-stage">
+            <div class="mac-bar compact">
+              <div class="bar-left"><b>Finder</b><span>File</span><span>Edit</span><span>View</span></div>
+              <div class="bar-right"><i></i><span>4 events</span><span>Sat 11:42 AM</span></div>
+            </div>
+            <div class="notch-system command-strip">
+              <button class="mini-capsule sessions compact-chip">
+                <span class="stack"><i>CL</i><i>CX</i><i>QW</i></span>
+              </button>
+              <div class="notch"><span></span></div>
+              <button class="mini-capsule alert risk">
+                <span class="face angry"><i></i><i></i><b></b></span>
+                <strong>RISK</strong>
+                <em>4</em>
+              </button>
+            </div>
+
+            <div class="panel action-panel command-panel">
+              <header>
+                <div>
+                  <p>Risk Review</p>
+                  <h3>rm / git clean blocked</h3>
+                  <span>Terminal · autoXhs · Qwen CLI</span>
+                </div>
+                <b>critical</b>
+              </header>
+              <div class="risk-meter">
+                <span style="--w: 92%"></span>
+                <em>Impact confidence 92%</em>
+              </div>
+              <div class="command-line mono">rm -rf ~/Documents/xhs-drafts/* && git clean -fd</div>
+              <div class="impact-grid">
+                <span><b>Paths</b><small>2 affected groups</small></span>
+                <span><b>Undo</b><small>Not available</small></span>
+                <span><b>Origin</b><small>AI generated</small></span>
+              </div>
+              <footer>
+                <span>Qwen · 1 / 4</span>
+                <div>
+                  <button class="danger">Reject</button>
+                  <button class="primary">Allow once</button>
+                </div>
+              </footer>
+            </div>
+
+            <div class="session-panel panel command-sessions">
+              <header><div><p>Sessions</p><h3>AI processes</h3></div><b>3</b></header>
+              <div class="session-row selected"><i>QW</i><span><b>Qwen CLI</b><small>waiting · autoXhs</small></span><em>2</em></div>
+              <div class="session-row"><i>CX</i><span><b>Codex CLI</b><small>running · wBot</small></span><em>1</em></div>
+              <div class="session-row"><i>CL</i><span><b>Claude CLI</b><small>result ready</small></span><em>1</em></div>
+            </div>
+          </div>
+          <div class="state-matrix">
+            <article><span class="sleep-line narrow"></span><b>Dormant</b><small>0 events</small></article>
+            <article><div class="tiny-pill confirm"><span class="face waiting"><i></i><i></i><b></b></span><b>CONF</b><em>2</em></div><small>Confirm</small></article>
+            <article><div class="tiny-pill done"><span class="face happy"><i></i><i></i><b></b></span><b>DONE</b><em>1</em></div><small>Result</small></article>
+            <article><div class="tiny-pill error"><span class="face sad"><i></i><i></i><b></b></span><b>ERR</b><em>1</em></div><small>Error</small></article>
+            <article><div class="tiny-pill risk"><span class="face angry"><i></i><i></i><b></b></span><b>RISK</b><em>4</em></div><small>Auto peek</small></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="direction companion" id="warm-companion">
+        <div class="direction-intro">
+          <div>
+            <p class="route-label">Direction 03</p>
+            <h2>Warm Companion</h2>
+            <p>
+              更强调 DMG 形象陪伴感：表情更圆润、状态更柔和，适合希望产品有一点人格但仍保持 Mac 克制感的方向。
+            </p>
+          </div>
+          <ul class="route-notes">
+            <li>完成态最友好，低压提醒</li>
+            <li>风险态仍保留证据优先</li>
+            <li>更适合创作者和非纯工程用户</li>
+          </ul>
+        </div>
+        <div class="design-canvas companion-canvas">
+          <div class="desktop-stage">
+            <div class="mac-bar warm">
+              <div class="bar-left"><b>Finder</b><span>File</span><span>Edit</span><span>View</span></div>
+              <div class="bar-right"><i></i><span>AI calm</span><span>Sat 11:42 AM</span></div>
+            </div>
+            <div class="notch-system warm-system">
+              <button class="mini-capsule sessions">
+                <span class="stack"><i>CL</i><i>CX</i><i>QW</i></span>
+                <b>3</b>
+              </button>
+              <div class="notch"><span></span></div>
+              <button class="mini-capsule alert done">
+                <span class="face happy"><i></i><i></i><b></b></span>
+                <strong>完成</strong>
+                <em>1</em>
+              </button>
+            </div>
+
+            <div class="panel action-panel warm-panel">
+              <header>
+                <div>
+                  <p>Done</p>
+                  <h3>结果已就绪</h3>
+                  <span>Claude CLI · 5 分钟前</span>
+                </div>
+                <b>done</b>
+              </header>
+              <div class="result-card">
+                <span class="face happy large"><i></i><i></i><b></b></span>
+                <div>
+                  <p>Claude 生成了视觉方向草案。</p>
+                  <div class="command-line">open output/strategy/notch-monitor-routes.md</div>
+                </div>
+              </div>
+              <dl>
+                <div><dt>来源</dt><dd>Claude CLI</dd></div>
+                <div><dt>影响</dt><dd>生成可查看文件，不修改源文件</dd></div>
+              </dl>
+              <footer>
+                <span>1 / 1</span>
+                <div>
+                  <button>标记已读</button>
+                  <button class="primary">打开结果</button>
+                </div>
+              </footer>
+            </div>
+
+            <div class="session-panel panel warm-sessions">
+              <header><div><p>Session Hub</p><h3>全部会话</h3></div><b>3</b></header>
+              <div class="session-row"><i>CL</i><span><b>Claude CLI</b><small>result ready · 5 分钟前</small></span><em>完成</em></div>
+              <div class="session-row selected"><i>QW</i><span><b>Qwen CLI</b><small>waiting · autoXhs</small></span><em>2 待处理</em></div>
+              <div class="session-row"><i>CX</i><span><b>Codex CLI</b><small>running · preview</small></span><em>运行中</em></div>
+            </div>
+          </div>
+          <div class="state-matrix companion-states">
+            <article><span class="sleep-line soft"></span><b>休眠</b><small>安静淡线</small></article>
+            <article><div class="tiny-pill confirm"><span class="face waiting"><i></i><i></i><b></b></span><b>确认</b><em>2</em></div><small>温和等待</small></article>
+            <article><div class="tiny-pill done"><span class="face happy"><i></i><i></i><b></b></span><b>完成</b><em>1</em></div><small>柔和好消息</small></article>
+            <article><div class="tiny-pill error"><span class="face sad"><i></i><i></i><b></b></span><b>失败</b><em>1</em></div><small>不惊吓</small></article>
+            <article><div class="tiny-pill risk"><span class="face angry"><i></i><i></i><b></b></span><b>风险</b><em>1</em></div><small>仍然明确</small></article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

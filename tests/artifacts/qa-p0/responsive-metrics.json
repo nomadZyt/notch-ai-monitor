@@ -1,0 +1,168 @@
+[
+  {
+    "viewport": {
+      "width": 390,
+      "height": 760,
+      "scrollWidth": 390,
+      "bodyScrollWidth": 390
+    },
+    "elements": {
+      "rightCapsule": {
+        "selector": "#rightCapsule",
+        "left": 262,
+        "right": 378,
+        "top": 42,
+        "bottom": 76,
+        "width": 116,
+        "height": 34,
+        "inViewport": true
+      },
+      "actionPanel": {
+        "selector": "#actionPanel",
+        "left": 12,
+        "right": 378,
+        "top": 84,
+        "bottom": 732,
+        "width": 366,
+        "height": 648,
+        "inViewport": true
+      },
+      "actionButtons": {
+        "selector": "#actionButtons",
+        "left": 25,
+        "right": 365,
+        "top": 643,
+        "bottom": 731,
+        "width": 340,
+        "height": 88,
+        "inViewport": true
+      }
+    },
+    "actionButtons": [
+      {
+        "action": "reject",
+        "left": 25,
+        "right": 191,
+        "top": 653,
+        "bottom": 687,
+        "width": 166,
+        "height": 34,
+        "inViewport": true
+      },
+      {
+        "action": "allow-once",
+        "left": 199,
+        "right": 365,
+        "top": 653,
+        "bottom": 687,
+        "width": 166,
+        "height": 34,
+        "inViewport": true
+      },
+      {
+        "action": "locate",
+        "left": 25,
+        "right": 191,
+        "top": 695,
+        "bottom": 729,
+        "width": 166,
+        "height": 34,
+        "inViewport": true
+      },
+      {
+        "action": "copy",
+        "left": 199,
+        "right": 365,
+        "top": 695,
+        "bottom": 729,
+        "width": 166,
+        "height": 34,
+        "inViewport": true
+      }
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "viewport": {
+      "width": 760,
+      "height": 760,
+      "scrollWidth": 760,
+      "bodyScrollWidth": 760
+    },
+    "elements": {
+      "rightCapsule": {
+        "selector": "#rightCapsule",
+        "left": 632,
+        "right": 748,
+        "top": 42,
+        "bottom": 76,
+        "width": 116,
+        "height": 34,
+        "inViewport": true
+      },
+      "actionPanel": {
+        "selector": "#actionPanel",
+        "left": 194,
+        "right": 566,
+        "top": 84,
+        "bottom": 732,
+        "width": 372,
+        "height": 648,
+        "inViewport": true
+      },
+      "actionButtons": {
+        "selector": "#actionButtons",
+        "left": 207,
+        "right": 553,
+        "top": 643,
+        "bottom": 731,
+        "width": 346,
+        "height": 88,
+        "inViewport": true
+      }
+    },
+    "actionButtons": [
+      {
+        "action": "reject",
+        "left": 207,
+        "right": 376,
+        "top": 653,
+        "bottom": 687,
+        "width": 169,
+        "height": 34,
+        "inViewport": true
+      },
+      {
+        "action": "allow-once",
+        "left": 384,
+        "right": 553,
+        "top": 653,
+        "bottom": 687,
+        "width": 169,
+        "height": 34,
+        "inViewport": true
+      },
+      {
+        "action": "locate",
+        "left": 207,
+        "right": 376,
+        "top": 695,
+        "bottom": 729,
+        "width": 169,
+        "height": 34,
+        "inViewport": true
+      },
+      {
+        "action": "copy",
+        "left": 384,
+        "right": 553,
+        "top": 695,
+        "bottom": 729,
+        "width": 169,
+        "height": 34,
+        "inViewport": true
+      }
+    ],
+    "hasHorizontalOverflow": false
+  }
+]
