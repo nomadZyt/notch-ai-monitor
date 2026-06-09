@@ -1,24 +1,23 @@
 # Main Agent Context Checkpoint P2
 
-更新时间：2026-06-08
+更新时间：2026-06-09
 Agent：Main Agent
 工作目录：`/Users/zhaiyongtao/vibeCoding/notch-ai-monitor`
 
 ## 1. 当前总目标
 
-Notch AI Monitor 已完成 P1 技术 Spike 与 P1+ polish。P2 开始进入真实 action side effect 合同设计与最小实现。
+Notch AI Monitor 已完成 P2 beta 主链路与 Tauri Web UI MVP host。当前目标是保持 Desktop/Manager/real CLI adapter 边界稳定，在 Tauri MVP 路线上继续补 artifact smoke、资源打包策略、DMG/安装包、签名公证和升级迁移 QA；SwiftUI/AppKit 仍是 formal host 候选/后续路线。
 
-P2 开发顺序事实：
+当前路线事实：
 
-1. P2.1：真实 action side effects 合同，优先 read-only `view-log` 安全打开/展示日志路径。
-2. P2.2：再设计 `retry` / `terminate` 真实 side effects，尤其 terminate 必须有确认、权限边界、进程归属校验，不能直接粗暴 kill。
-3. P2.3：事件历史与持久化。
-4. P2.4：真实 CLI adapter hardening。
-5. P2.5：产品化 Session Hub。
+1. P2 beta 已完成：read-only `view-log`、graceful `retry` / `terminate` 合同与实现边界、event history/pending action projection、scheduler/SSE、real-link smoke、Session Hub。
+2. P3 当前先实现 Tauri Web UI MVP host：Tauri 启动 app-managed Manager API，并承载顶部小尺寸 WebView surface。
+3. Electron active code 已清理；不得恢复 Electron 作为产品宿主、packaging spike 或默认 `.app` 路线。
+4. Desktop UI 只消费 Manager snapshot/read-only endpoints，不读取 persistence file、control token，也不直接操作 CLI 进程。
 
 ## 2. 主 Agent 流程规则
 
-- P2 小节开始和结束优先更新本 checkpoint。
+- P2/P3 小节开始和结束优先更新本 checkpoint。
 - P1/P1+ 历史入口保留在 `docs/handoffs/main-agent-context-checkpoint-p1.md`。
 - 每个阶段完成后继续写详细 handoff 到 `docs/handoffs/`。
 - 改动前先 review 上一步是否有不合理代码或破坏可扩展性。
@@ -36,7 +35,9 @@ P2 开发顺序事实：
 - P2.2 实现拆分已开始：先做 Manager 内部 process ownership registry 与 fake supervisor tests；默认 runtime 仍保持 mocked，尚不接真实 CLI 进程。
 - P2.2b 已开始：先做 `retry` launch profile registry 和 risk policy replay，再接 opt-in retry supervisor；默认 mock runtime 仍不变。
 - P2.3 已完成：process action audit、retry launch profile 和 retry risk replay result 已有最小持久化 port 与可选 JSON file store；Desktop 仍只消费 Manager API，不接持久化细节。
-- P2.4 已开始：real CLI adapter hardening，目标是让 wrapper/notch-run 向 Manager 注册 retry launch profile 和 process ownership，并复用 P2.3 persistence store；Desktop 仍保持解耦。
+- P2.4/P2.5 已完成：real CLI adapter registration/control channel、async action completion、event history/pending action projection、internal scheduler、repeatable real-link smoke 与产品化 Session Hub 均已落地。
+- P3 Tauri MVP 已完成本地 `.app` 验证：当前 `package:mac` 指向 `build:tauri-mvp`；Tauri DMG、签名、公证、安装/升级 QA 仍待做。
+- Electron active code、scripts 和 generated artifacts 已清理；过期 Electron standalone handoff 在文档整理中删除，废弃原因保留在本 checkpoint、`AGENTS.md` 和 docs index。
 
 ## 4. P2.1 工作日志
 
@@ -150,24 +151,16 @@ P2 开发顺序事实：
 
 ## 16. 下一步入口
 
-P2.2 合同设计已完成。
+当前最稳下一步是 Tauri MVP release hardening，而不是回到 Electron：
 
-P2.2a process ownership registry 与 fake supervisor tests 已完成。
-
-下一入口建议为 event history / pending action runtime implementation：
-
-- P2.2b `retry` launch profile registry、risk policy replay 和 opt-in retry supervisor 已完成。
-- P2.3 最小 process persistence 已完成，后续如扩展 P2.3，应设计完整 event history persistence，而不是让 Desktop 直接读 JSON 文件。
-- P2.4 已让 real CLI adapter 注册 launch profile 和 process ownership，Desktop 未直接启动 CLI。
-- P2.4b real retry supervisor / graceful terminate supervisor 已完成。
-- P2.4c wrapper/notch-run adapter control channel 已完成。
-- P2.4d async action completion/event auto-resolution 已完成。
-- P2.5 产品化 Session Hub 最小切片已完成。
-- 完整 event history/pending action visibility 合同已完成；如果继续实现，应先做 `local-manager-mock` event history / pending action store port 与 fake tests。
-- 后续实现顺序建议：Manager projection store -> action request/result/completion 写入 pending projection -> event/status/session timeline -> Local Manager API read-only endpoints -> Desktop History/Pending UI -> Browser QA。
+- `smoke:tauri-mvp` 自动化：覆盖 `.app` 启动、app-managed Manager health、Desktop connected、Session Hub/action panel、real-link event 和退出清理。
+- Tauri artifact resource strategy：决定是否 bundle Node sidecar / Manager runtime，让 `.app` 从本地 MVP 走向可分发 artifact。
+- Tauri DMG 或安装包：解决当前 create-dmg 未完成的问题。
+- Tauri signing/notarization gate：Developer ID、notary credentials、codesign/spctl/stapler、signed artifact smoke。
+- Applications 安装、覆盖安装、用户目录 persistence 迁移和升级 QA。
+- 如要进入 formal host，先写 Tauri vs SwiftUI/AppKit ADR，再改 UI/packaging。
 - `terminate` 真实实现只能做 graceful stop；force kill 必须另开合同与 action。
-- Desktop 仍不得直接 kill 进程、attach PTY 或启动 CLI。
-- P2.3 事件历史与持久化可以承接 P2.2 审计记录持久化，但 Desktop 仍不得直接读 JSON 文件。
+- Desktop 仍不得直接 kill 进程、attach PTY、启动 CLI、读取 persistence file 或读取 control token。
 
 ## 17. Event History / Pending Action Visibility 实现工作日志
 
@@ -275,70 +268,13 @@ P2.2a process ownership registry 与 fake supervisor tests 已完成。
 - 2026-06-09 长期服务收口：由于本轮已改 API bin，长期 4317 旧 PID `91452` 已用 SIGTERM 停止，并以最新 dist 重启。当前 Local Manager API `http://127.0.0.1:4317` PID `31141`，参数包含 `--process-side-effects supervised --event-history-persistence-file /tmp/notch-event-history-p2.json --pending-action-sweep-interval-ms 30000`，日志显示 `pending action timeout: default`；重启后发现旧 event history persistence hydrate 出 orphan expired pending，已用 `/v1/debug/reset` 清成干净 snapshot。Desktop Vite 仍在 `http://127.0.0.1:5174`，PID `94874`。
 - 2026-06-09 收尾结束：已新增 `docs/handoffs/main-agent-repeatable-real-link-smoke-p2.md`。当前建议下一步是把 `smoke:real-link` 接入 P2/P3 beta acceptance checklist，或补一条 Browser QA 脚本专门验证 real-link timeout 后 Desktop Session Hub 展示。
 
-## 27. P2/P3 Beta Acceptance & Packaging Prep 工作日志
+## 27-34. Superseded Electron Spike History (Compacted)
 
-- 2026-06-09 开始：按用户指定的 5 个待办继续推进：接入 `smoke:real-link` 到 P2/P3 beta acceptance checklist；补 Browser QA 验证 real-link timeout 后 Desktop Session Hub 显示“已过期”；整理 dev/test timeout override 文档或 CLI help；评估 per-action timeout；进入 P3 packaging/beta release hardening 的启动方式、持久化路径、长期服务管理、用户验收清单。
-- 2026-06-09 复核阶段结束：现有 `test:qa` 使用 Playwright config 自动启动/复用 Desktop Vite，但只覆盖 API/mock Browser 行为，不构建或调用 real CLI adapter；本轮决定新增独立 `test:qa:real-link`，避免拖慢普通 QA。acceptance checklist 将新增在 `docs/qa/p2-p3-beta-acceptance.md`，P3 packaging hardening 作为 checklist 的独立章节先落文档，不直接引入 Electron/Tauri runtime。
-- 2026-06-09 实现阶段结束：新增独立 real-link Browser QA `apps/desktop/tests/real-link/real-link-timeout-ui.spec.mjs` 与 `apps/desktop/tests/playwright.real-link.config.mjs`，启动临时 API + real `notch-run`，用短 timeout/scheduler 生成真实 expired pending action，再打开 Desktop API mode 验证 Session Hub “动作状态”显示“已过期”；root 新增 `test:qa:real-link`。新增 `docs/qa/p2-p3-beta-acceptance.md`，接入 `smoke:real-link`、`test:qa:real-link`、dev/test timeout override、per-action timeout 评估和 P3 packaging hardening checklist。Local Manager API server bin 新增 `--help/-h` 输出，覆盖 timeout override CLI 说明。
-- 2026-06-09 验证阶段开始：开始验证新 QA 接线与文档/CLI help。重点确认 `test:qa:real-link` 使用独立 Playwright config，普通 `test:qa` 仍只跑既有 12 条 Desktop Browser QA；同时重跑 `smoke:real-link`、CLI help grep、build 与 diff check。
-- 2026-06-09 验证阶段结束：`npm run test:qa:real-link` 1/1 通过；`npm run test:qa` 12/12 通过；`npm run smoke:real-link` 通过，completion 为 `completed/resolved/terminate_graceful_completed`，timeout 为 `expired/failed/pending_action_timeout` 且 event 保持 active；`npm run build` 通过；`npm run test -w @notch-ai-monitor/local-manager-api` 30/30 通过；CLI help grep 覆盖 timeout/scheduler env 与参数；`git diff --check` 通过。
-- 2026-06-09 收尾结束：已新增 `docs/handoffs/main-agent-p2-p3-beta-acceptance-packaging-prep.md`。当前长期 Local Manager API 仍在 `http://127.0.0.1:4317`，PID `31141`，`/health` ok，snapshot 干净 `sessions=0/events=0/pending=0`；Desktop Vite 仍在 `http://127.0.0.1:5174`，PID `94874`。P3 下一步建议进入 packaging MVP：Electron shell + app-managed Manager API lifecycle + 用户目录 persistence + packaged app smoke。
-
-## 28. P3 Packaging MVP 工作日志
-
-- 2026-06-09 开始：进入 P3 packaging MVP。目标是新增 Electron app shell，由 app 自己启动 Local Manager API 子进程、把 Desktop dist 指向 app-managed Manager URL、将 process/event history persistence 移到 macOS 用户目录，并在 app 退出时 graceful shutdown Manager；仍不让 Desktop 直接操作 CLI 进程或 persistence file。
-- 2026-06-09 复核阶段结束：仓库根目录没有实体 `AGENTS.md`，继续遵守用户消息中的 AGENTS 规则。现有工程没有 Electron/Tauri 结构或依赖；Desktop 是 Vite app，已支持 `?manager=api&managerUrl=...`；Local Manager API bin 已支持 `--port 0`、`--process-side-effects supervised`、独立 process/event history persistence file、timeout 和 scheduler 参数。P3 可优先新增独立 `apps/electron` workspace 和 smoke 脚本，不修改 shared protocol、EventQueue/StateMachine、real CLI adapter 或 Desktop 业务逻辑。
-- 2026-06-09 实现阶段开始：计划新增 `@notch-ai-monitor/electron-app` workspace。Electron main process 负责解析 repo/app resource paths、创建用户目录 persistence/log paths、spawn app-managed Local Manager API、等待 `/health`、加载 `apps/desktop/dist/index.html?manager=api&managerUrl=<app-managed-url>`，并在退出时向自己启动的 Manager 子进程发送 SIGTERM。Local Manager API 仅补 app-managed logger 入口，用于记录 adapter registration failures 和 SSE disconnects 到 app 捕获的 manager 日志。
-- 2026-06-09 实现阶段结束：新增 `apps/electron` Electron main process、root `dev:electron` / `smoke:packaging` scripts、`scripts/electron-packaging-smoke.mjs`，并把 Desktop Vite build `base` 改为 `./` 以支持 `file://` 内置 dist 资源。Electron app 将 process persistence 写入 `~/Library/Application Support/Notch AI Monitor/process-state/process-state.json`，event history 写入 `~/Library/Application Support/Notch AI Monitor/event-history/event-history.json`，app log 写入 `~/Library/Application Support/Notch AI Monitor/logs/app.log`；Desktop 仍只通过 query 注入的 Manager API URL 连接。
-- 2026-06-09 Packaging smoke 阶段结束：`npm run smoke:packaging` 通过。smoke 启动 Electron app，解析 app-managed Manager URL `http://127.0.0.1:54596`，验证 `/health` ok，打开 Session Hub 状态，使用 real `notch-run` 向 app-managed Manager 注入 active error event `evt_real_codex_cli_error_20260608170600_0001`，关闭 Electron 后确认该 Manager 端口下线。
-- 2026-06-09 验证阶段开始：开始回归 P2/P3 beta acceptance 入口与 API 单测，重点确认新增 Electron workspace、Vite relative base 和 app-managed API logger 没有破坏 real-link smoke、Desktop Browser QA、Local Manager API tests 或 build。
-- 2026-06-09 验证阶段结束：`npm run build` 通过；`npm run smoke:packaging` 通过；`npm run test -w @notch-ai-monitor/local-manager-api` 30/30 通过；`npm run smoke:real-link` 通过；`npm run test:qa:real-link` 1/1 通过；`npm run test:qa` 12/12 通过；`git diff --check` 通过；touched-file 行尾空白扫描通过。`npm install` 后 npm audit 报告 2 个 moderate vulnerabilities，未执行 `npm audit fix --force`，避免引入破坏性升级。
-- 2026-06-09 文档阶段结束：`docs/qa/p2-p3-beta-acceptance.md` 已加入 `npm run smoke:packaging` 和 Electron app-managed Manager lifecycle 验收项；已新增 `docs/handoffs/main-agent-p3-packaging-mvp-electron.md`。当前长期 Local Manager API `http://127.0.0.1:4317` PID `31141`，`/health` ok，snapshot 干净 `sessions=0/events=0/pending=0`；Desktop Vite `http://127.0.0.1:5174` PID `94874`。P3 packaging MVP 完成，下一步是签名/公证/安装器或真正 packaged artifact tooling。
-
-## 29. P3 Release Artifact Packaging 工作日志
-
-- 2026-06-09 开始：进入真实 release artifact tooling。目标是生成可本地运行的 macOS `.app` 和 `.dmg` artifact，补 app icon/version metadata，保留签名/公证配置占位，并新增 artifact smoke，仍保持 Desktop 只通过 Manager API URL 连接、Electron 只管理自己启动的 Manager 子进程。
-- 2026-06-09 复核阶段结束：上一节 Electron MVP 已验证 repo-run app shell、用户目录 persistence、app-managed Manager shutdown 和 app-managed real-link smoke。当前缺口是 release staging、资源包含、`.app/.dmg` 生成、artifact smoke 和签名/公证说明。选择 `@electron/packager + hdiutil` 而不是一次性引入完整 Electron Builder：本阶段需要显式控制 staging 内容和无证书本地 smoke；签名/公证先做环境变量占位，后续有 Developer ID 后再开启。
-- 2026-06-09 实现阶段开始：新增 mac packaging script，计划生成 staging package、内置 Desktop/Electron/Manager/real adapter dist、复制必要 workspace packages 到 `node_modules/@notch-ai-monitor/*`，用纯 Node PNG encoder + `iconutil` 生成 `.icns`，再用 `@electron/packager` 生成 `.app`、`hdiutil` 生成 `.dmg`。artifact smoke 扩展为支持 repo-run、`--app` 和 `--dmg` 三种入口。
-- 2026-06-09 实现阶段结束：新增 `scripts/package-electron-mac.mjs`、root `package:mac` / `smoke:artifact` scripts，并把 `apps/electron/package.json` metadata 更新为 product name `Notch AI Monitor`、version `0.3.0`。packaging script 会生成 staging app、`.icns` icon、Packager `.app`、UDZO `.dmg`；默认 unsigned，若设置 `NOTCH_MAC_SIGN_IDENTITY` 会把 identity 传给 Packager `osxSign`，notarization 仍标记为 `not-configured`。`.app` 复制到 release artifacts 时使用 `ditto` 保留 Electron Framework symlink，避免 packaged runtime 缺资源崩溃。
-- 2026-06-09 Artifact smoke 阶段结束：`npm run package:mac` 通过，产物为 `release/artifacts/Notch AI Monitor.app` 和 `release/artifacts/Notch-AI-Monitor-0.3.0-mac-arm64.dmg`。`node scripts/electron-packaging-smoke.mjs --app "release/artifacts/Notch AI Monitor.app"` 通过，app-managed Manager URL `http://127.0.0.1:58257`，real-link event `evt_real_codex_cli_error_20260608173119_0001`；`--dmg` 挂载 smoke 通过，Manager URL `http://127.0.0.1:58316`，event `evt_real_codex_cli_error_20260608173142_0001`；`npm run smoke:artifact` 通过，Manager URL `http://127.0.0.1:58412`，event `evt_real_codex_cli_error_20260608173222_0001`。
-- 2026-06-09 回归验证阶段结束：扩展后的 repo-run `npm run smoke:packaging` 仍通过，Manager URL `http://127.0.0.1:58705`，event `evt_real_codex_cli_error_20260608173416_0001`；`git diff --check` 通过。额外核对 bundle metadata：display/name `Notch AI Monitor`、bundle id `com.notch-ai-monitor.desktop`、version/build `0.3.0`、icon file `electron.icns`；`.icns` hash 与生成源一致，DMG 为 UDZO read-only compressed image，artifact smoke 退出后 app-managed Manager 端口下线。
-- 2026-06-09 文档阶段结束：`docs/qa/p2-p3-beta-acceptance.md` 已加入 `npm run smoke:artifact` 和 `.app/.dmg` artifact acceptance；已新增 `docs/handoffs/main-agent-p3-release-artifact-packaging.md`。当前长期 Local Manager API `http://127.0.0.1:4317` PID `31141`，`/health` ok，snapshot 干净 `sessions=0/events=0/pending=0`；Desktop Vite `http://127.0.0.1:5174` PID `94874`。未发现残留 DMG mount 或额外 packaged app/app-managed Manager 进程。下一步是 Developer ID signing/notarization、签名后 artifact smoke、Applications 安装/升级迁移 QA。
-
-## 30. P3 Signing / Notarization Tooling 工作日志
-
-- 2026-06-09 开始：进入 Developer ID signing/notarization 接线。目标是在不伪造正式分发状态的前提下，把现有 `.app/.dmg` packaging script 升级为 env 驱动的签名、公证、staple、验证链路，并补 signed artifact smoke/verify 入口；Desktop/Manager/runtime 边界不变。
-- 2026-06-09 前置条件复核：本机 `security find-identity -v -p codesigning` 返回 `0 valid identities found`，因此当前机器不能完成真实 Developer ID 签名或 Apple notarization；`xcrun notarytool --help` 可用。后续实现会让 unsigned 本地 smoke 继续可跑，但当用户显式要求 signed/notarized release 时必须校验证书和 notary credentials，缺失时 fail-fast。
-- 2026-06-09 实现阶段结束：新增 `apps/electron/build/entitlements.mac.plist`，为 Developer ID hardened runtime signing 准备 Electron entitlements。`scripts/package-electron-mac.mjs` 已扩展 `--preflight-signing`、`NOTCH_MAC_SIGN_IDENTITY`、`NOTCH_MAC_REQUIRE_SIGNED=1`、`NOTCH_MAC_NOTARIZE=1`、notary credentials 解析、app zip notarization/staple、DMG signing/notarization/staple。新增 `scripts/verify-mac-artifact.mjs`，可结构化检查 `.app/.dmg`、codesign、spctl、stapler、DMG mount 和 mounted app。root 新增 `package:mac:signed`、`verify:artifact`、`verify:artifact:signed`、`smoke:artifact:signed`。
-- 2026-06-09 验证阶段结束：`node --check scripts/package-electron-mac.mjs`、`node --check scripts/verify-mac-artifact.mjs`、`node --check scripts/electron-packaging-smoke.mjs` 通过。`npm run package:mac:signed` 按预期 fail-fast，原因是未设置 `NOTCH_MAC_SIGN_IDENTITY` 且本机没有 codesigning identity。`npm run smoke:artifact` 通过，重新生成 unsigned artifact 并从 DMG 启动 app-managed Manager，Manager URL `http://127.0.0.1:62213`，event `evt_real_codex_cli_error_20260608181323_0001`。`npm run verify:artifact` 通过，确认 artifact 存在、DMG 为 UDZO、可挂载并包含 `.app`，同时标明当前 app/dmg 不是 Developer ID signed、没有 stapled ticket。`npm run verify:artifact:signed` 按预期失败，证明 signed gate 不会误放行 unsigned artifact。
-- 2026-06-09 文档阶段结束：`docs/qa/p2-p3-beta-acceptance.md` 已加入 signed/notarized release gate 入口、notary credentials 说明和当前机器缺证书状态；新增 `docs/handoffs/main-agent-p3-signing-notarization-tooling.md`。当前 signed/notarized tooling 已接好，但真实签名/公证仍需在有 Developer ID certificate 和 notary credentials 的机器上运行 `npm run smoke:artifact:signed`。
-
-## 31. P3 Menu Bar App Shape 修正日志
-
-- 2026-06-09 开始：用户指出当前 packaged app 打开的是普通大窗口/桌面演示页，但产品应是 macOS 顶部菜单栏工具。复核确认上一轮 Electron MVP 只验证 app-managed Manager lifecycle 和 artifact smoke，外壳仍是普通 BrowserWindow；需要改成 menu bar app，不改变 Manager/API/Desktop 权限边界。
-- 2026-06-09 实现阶段结束：Electron main process 已改为 menu bar/popover shell：macOS 下隐藏 Dock、创建 Tray 状态项 `Notch`、点击状态项展开/收起 frameless popover、popover blur 自动隐藏、右键菜单提供 Open 和 Quit；app 退出和 SIGTERM/SIGINT 都继续走 Manager graceful shutdown。Electron 加载 Desktop dist 时注入 `surface=menubar`。Desktop 新增仅 Electron 使用的 menubar surface，默认打开 Session Hub，隐藏桌面 wallpaper/menu-bar/演示按钮，用 compact CSS 让面板填满弹窗；普通 Web/Desktop QA 默认 surface 不变。
-- 2026-06-09 验证阶段结束：`npm run build:app -w @notch-ai-monitor/desktop` 通过；`npm run build -w @notch-ai-monitor/electron-app` 通过；`npm run package:mac` 通过；已重新启动 `release/artifacts/Notch AI Monitor.app`。当前顶部菜单栏有 `Notch` 状态项，弹窗显示 compact Session Hub，不再显示全屏桌面演示页；app-managed Manager 最新 URL `http://127.0.0.1:56703`，日志显示 `/health` healthy。
-- 2026-06-09 UI 修正：用户反馈 compact 面板里表情状态丢失且布局看起来被截断。已新增 menubar 专用顶部状态头 `menubarToolHeader`，复用原 `event-face` 眼睛/嘴巴/mood 动画，显示当前状态、meta 和事件数；Session Hub 下移到状态头下面，panel head 隐藏，hub summary 改为两列，Electron popover 尺寸改为 `380x620`，避免右侧空白。`npm run package:mac` 通过并已重新启动本地 `.app`；当前 app-managed Manager `http://127.0.0.1:58573` healthy。
-
-## 32. P3 Product Design Alignment / Overlay 修正日志
-
-- 2026-06-09 开始：用户指出上一轮是盲改且布局错乱。暂停继续视觉猜测，按 Product Design get-context playback 复核 `docs/product-requirements-v2.md`、`docs/product-audit.md`、`docs/效果说明.md`、`docs/handoffs/ui-agent-p0.md` 和 `design/notch-ai-monitor-hifi.html`。结论：产品形态不是固定 380x620 menu bar dashboard，而是默认隐入 Mac 刘海/顶部区域的状态层；左/右胶囊从刘海背后滑出，表情位于右事件胶囊，Session Hub/action panel 只在展开时就近落下，demo/debug 控制不得混入正式 packaged surface。
-- 2026-06-09 实现阶段结束：已撤掉上一轮 `surface=menubar` / `menubarToolHeader` / compact popover CSS。Electron app shell 改为顶部透明 overlay window：隐藏 Dock，保留 Tray 作为打开/退出兜底，窗口覆盖当前菜单栏所在 display 的顶部区域，加载 Desktop dist 时注入 `surface=overlay`。Desktop 的 overlay surface 只隐藏 fake wallpaper、fake menu bar 和 demo tray，不改变 notch-zone、左右胶囊、表情、Session Hub/action panel、Manager API 数据流或业务状态机。
-- 2026-06-09 视觉与 smoke 验证结束：`npm run build:app -w @notch-ai-monitor/desktop` 通过；`npm run build -w @notch-ai-monitor/electron-app` 通过；`npm run package:mac` 通过；手动启动 `release/artifacts/Notch AI Monitor.app` 后 app-managed Manager `http://127.0.0.1:59970` `/health` ok，空态截图只显示顶部 notch/status layer，不再出现大窗口或固定小抽屉。通过正式 debug envelope 注入 `all` 场景后，截图可见左会话胶囊、右风险胶囊、表情和事件数均位于刘海两侧。`node scripts/electron-packaging-smoke.mjs --app "release/artifacts/Notch AI Monitor.app"` 通过，Manager URL `http://127.0.0.1:60179`，real-link event `evt_real_codex_cli_error_20260609011205_0001`；退出后 app-managed Manager 下线。`git diff --check` 与 touched-file 行尾空白检查通过。
-
-## 33. P3 Product Shape Re-evaluation 工作日志
-
-- 2026-06-09 开始：用户再次指出当前产品形态仍不对，要求携带产品信息重新评估和修改。本轮先按 Product Design get-context playback 读取 `docs/technical-options-and-task-plan.md`、PRD、效果说明、产品审计、高保真稿、视觉基准截图、当前 checkpoint/P3 handoff 和当前 Electron/Desktop 实现；在形成偏差评估和修改计划前不继续沿 Electron 小抽屉或 overlay 惯性改 UI。
-- 2026-06-09 评估阶段结束：产品事实确认如下：正式产品形态是 macOS 顶部状态层 / 控制面，不是普通 app window、dashboard、固定 popover 或 Web overlay；技术路线文档推荐技术 Spike 走 Tauri + Web UI，正式 MVP 走 SwiftUI/AppKit Host，Electron 只适合最快 demo 且不建议作为首选。当前 `apps/electron` 能保留为 packaging / app-managed Manager lifecycle spike，但 `surface=overlay` 命名和 `package:mac`/`smoke:artifact` 文档会误导为正式产品宿主。修改计划：不继续打磨 Electron overlay 形态；先把 Electron surface 和 scripts/docs 标成 `electron-spike`，新增设计 guard/AGENTS 约束，要求后续 UI/packaging 修改前读设计源并更新 checkpoint；正式产品宿主下一阶段应另开 Tauri 或 SwiftUI/AppKit ADR，复用现有 Local Manager/API/CLI adapter 成果。
-- 2026-06-09 实现阶段结束：已把 Electron 注入 Desktop 的 surface 从 `overlay` 改名为 `electron-spike`，Desktop 只在该 spike surface 下隐藏 fake wallpaper/menu-bar/demo tray，不再把该模式命名成产品 surface。root scripts 改为 `package:mac:electron-spike`、`smoke:packaging:electron-spike`、`smoke:artifact:electron-spike`，保留兼容别名但文档明确这是临时 beta packaging artifact。新增实体 `AGENTS.md` 和 `scripts/design-surface-guard.mjs`；guard 检查设计源/截图存在、checkpoint 有产品形态评估标记，并阻止 Electron main 继续注入 `surface=overlay/menubar`。`docs/qa/p2-p3-beta-acceptance.md` 已改写为 Electron spike 验收，不把当前 `.app/.dmg` 声称为正式产品宿主。
-- 2026-06-09 验证阶段结束：`npm run guard:design` 通过，当前会列出 35 个受保护 UI/packaging 文件；`npm run build:app -w @notch-ai-monitor/desktop` 通过；`npm run build -w @notch-ai-monitor/electron-app` 通过；`npm run package:mac:electron-spike` 通过并生成 unsigned `.app/.dmg`，输出 mode 为 `electron-spike-mac-package`；`npm run smoke:packaging:electron-spike` 通过，app-managed Manager URL `http://127.0.0.1:62389`，event `evt_real_codex_cli_error_20260609013443_0001`；`npm run smoke:artifact:electron-spike` 通过，从 DMG 启动的 artifact Manager URL `http://127.0.0.1:62547`，event `evt_real_codex_cli_error_20260609013523_0001`；`git diff --check` 通过。视觉 sanity 截图保存到 `output/p3-product-shape-re-evaluation/electron-spike-artifact-sanity.png`，仅证明 spike artifact 可启动，不作为正式产品形态验收。
-- 2026-06-09 收尾结束：已新增 `docs/handoffs/main-agent-p3-product-shape-re-evaluation.md`。当前没有残留 packaged app 或 app-managed Manager 进程；长期 Local Manager API `http://127.0.0.1:4317` 当前未运行；Desktop Vite `http://127.0.0.1:5174` 仍在，PID `94874`。下一步不应继续在 Electron overlay 上补 UI，而应先做正式宿主 ADR：Tauri spike 或 SwiftUI/AppKit host，并保持 Local Manager/API/CLI adapter 成果不变。
-
-## 34. Electron Spike Click-Through Safety 工作日志
-
-- 2026-06-09 开始：用户确认当前启动后的 Electron 顶部透明层会遮挡其他 app 点击，且这已经脱离“默认隐入刘海、不占屏幕”的产品设计。本轮先关闭正在运行的 packaged app 和 app-managed Manager，恢复桌面可点击；随后只做安全纠偏，不继续把 Electron overlay 当产品形态打磨。目标是让 Electron spike 默认不遮挡用户桌面，并把任何可交互 overlay 变成显式 opt-in debug 行为。
-- 2026-06-09 实现阶段结束：`apps/electron/src/main.ts` 新增 `NOTCH_ELECTRON_SPIKE_UI=1` gate；默认双击/打开 `.app` 只启动 app-managed Manager 和菜单栏兜底，不创建透明 overlay window，也不会截获其他 app 点击。只有显式设置该 env 时才创建 Electron spike UI。`scripts/electron-packaging-smoke.mjs` 已在 repo-run 和 packaged-app smoke 中显式设置 `NOTCH_ELECTRON_SPIKE_UI=1`，保持自动化覆盖 Manager URL、Desktop connected、Session Hub 和 real-link event，但这个测试 UI 不再代表正式产品宿主。
-- 2026-06-09 验证阶段结束：`node --check scripts/electron-packaging-smoke.mjs`、`node --check scripts/design-surface-guard.mjs`、`npm run guard:design`、`git diff --check` 通过；`npm run package:mac:electron-spike` 通过；`npm run smoke:packaging:electron-spike` 通过，Manager URL `http://127.0.0.1:65523`，event `evt_real_codex_cli_error_20260609020140_0001`；`npm run smoke:artifact:electron-spike` 通过，从 DMG 启动的 Manager URL `http://127.0.0.1:49338`，event `evt_real_codex_cli_error_20260609020232_0001`。重新普通启动 `release/artifacts/Notch AI Monitor.app` 后，日志显示 Manager `http://127.0.0.1:49397` healthy，并记录 `electron spike UI disabled by default`；截图 `output/p3-product-shape-re-evaluation/app-open-no-overlay-final.png` 确认没有 Electron 透明覆盖层。当前 app 保持运行以便用户查看，PID `42793`，app-managed Manager PID `42817`。
+- P3 Product Shape Re-evaluation 标记保留：当时已按 `docs/technical-options-and-task-plan.md`、PRD、效果说明、产品审计、高保真稿和视觉基准截图复核产品形态；结论是正式产品不是普通 app window、dashboard、固定 popover 或 Web overlay。
+- 2026-06-09 曾短暂探索 Electron app-managed Manager、`.app/.dmg` artifact、signing/notarization tooling、menu bar popover、透明 overlay 和 `electron-spike` safety gate。
+- 这些探索已被用户纠偏和后续 Tauri MVP 决策取代：Electron active code、scripts、dependencies、generated artifacts 和 standalone handoff docs 均已清理。
+- 保留的结论只有：Electron 不符合当前产品宿主路线，不应恢复为产品宿主、packaging spike 或默认 `.app` 路线；可复用的能力是 Manager API、Desktop read-only API mode、real CLI adapter、event history/pending action lifecycle 与 app-managed lifecycle 思路。
+- P2/P3 beta acceptance 的当前事实以 `docs/qa/p2-p3-beta-acceptance.md` 为准；过期的 Electron standalone handoff 已在文档整理中删除。
 
 ## 35. Tauri MVP Host 工作日志
 
@@ -350,3 +286,9 @@ P2.2a process ownership registry 与 fake supervisor tests 已完成。
 
 - 2026-06-09 开始：用户确认应清理 Electron 代码，保持项目内容干净。本轮目标是把 Electron 从活跃工程路径移除：删除 `apps/electron`、Electron packaging/smoke/verify 脚本、root Electron scripts 和依赖、Desktop `electron-spike` surface/CSS；保留历史 handoff/checkpoint 作为废弃 spike 的原因记录。Tauri MVP 保持当前唯一活跃 macOS host 路线。
 - 2026-06-09 收尾结束：Electron active code 已清理完成。已删除 `apps/electron`、`scripts/electron-packaging-smoke.mjs`、`scripts/package-electron-mac.mjs`、`scripts/verify-mac-artifact.mjs`，并删除旧 Electron generated artifacts `release/artifacts`、`release/staging`、`release/packager`；`release/build` icon 资源保留给 Tauri 使用。root `package.json` 已移除 `dev:electron`、Electron package/smoke/artifact/signed/verify scripts、`@electron/packager` 依赖，`build` 不再编译 Electron workspace，`package:mac` 现在指向 `build:tauri-mvp`。Desktop 已移除 `electron-spike` surface 和 CSS；design guard 不再检查 Electron main，只保护当前 Tauri/Desktop surface。`npm install` 移除了 114 个 Electron 相关 npm packages；`package-lock.json` stale `apps/electron` entry 已删除。验证结果：`npm run guard:design`、`npm run build:app -w @notch-ai-monitor/desktop`、`npm run build`、`npm run check -w @notch-ai-monitor/tauri-app`、`npm run build:tauri-mvp`、`git diff --check` 均通过；活跃代码/scripts/release 扫描无 Electron 引用。Tauri `.app` 已重新启动，app PID `53221`，app-managed Manager PID `53297`，Manager URL `http://127.0.0.1:51775`，`/health` ok。
+
+## 37. Documentation Cleanup 工作日志
+
+- 2026-06-09 开始：用户要求整理项目文档并删除过期内容。本轮先盘点 `docs/`、根 README、`design-qa.md`、当前 `package.json` scripts 与 Electron/Tauri 引用；确认当前活跃事实为 Tauri Web UI MVP host，Electron active code 已清理且不得恢复为产品宿主、packaging spike 或默认 `.app` 路线。删除标准收窄为：文档仍指向已删除的 Electron active code/scripts/artifacts，或根入口仍把旧 prototype/spec board 当当前项目事实；P0/P1/P2 合同与 checkpoint 作为历史证据暂不删除。
+- 2026-06-09 整理结束：根 `README.md` 已从旧 prototype spec board 改为当前 Tauri/P2-P3 入口；新增 `docs/README.md` 与 `docs/handoffs/README.md` 作为文档索引；删除过期 `design-qa.md`、P2/P3 packaging prep handoff 和 4 个 Electron P3 standalone handoff；`docs/qa/p2-p3-beta-acceptance.md` 已改为 checkpoint/索引保留废弃原因，过期 Electron handoff 不再作为当前入口；`docs/product-audit.md` 的旧 `prototype/interactive.*` 链接已修为 `interactive-v2.*`；本 checkpoint 顶部和下一步入口已更新为 Tauri MVP release hardening，并把 27-34 节 Electron 细节压缩为废弃历史摘要。
+- 2026-06-09 验证结束：自定义 Markdown 本地链接检查通过；`npm run guard:design` 通过，guarded file 为 `docs/qa/p2-p3-beta-acceptance.md`；`git diff --check` 通过。残留 Electron 相关引用只用于说明已删除文件/废弃路线，不再作为可执行入口。

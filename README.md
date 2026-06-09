@@ -1,29 +1,38 @@
 # Notch AI Monitor
 
-Lightweight macOS-style prototype for monitoring AI CLI sessions around the MacBook notch.
+Notch AI Monitor is a local macOS companion surface for monitoring AI CLI sessions near the MacBook notch. The current active host is the Tauri Web UI MVP: Tauri owns the small top-of-screen app window and app-managed Local Manager API lifecycle, while the Desktop Web UI only consumes Manager snapshot/read-only endpoints.
 
-## What It Contains
+Electron active code has been removed. Do not restore Electron as the product host, packaging spike, or default `.app` route.
 
-- `prototype/`: static spec board (`index.html`, `styles.css`, `app.js`) rebuilt from the concept image.
-- `docs/spec-from-concept.md`: design tokens and acceptance notes.
-- `prototype/9F9FEDCA-9B8F-4C94-B3D6-0BF3A0925B57.png`: visual source of truth.
-- `output/playwright/`: screenshots for visual QA.
+## Current Entry Points
 
-## Prototype Flow
+- Product and technical index: [docs/README.md](docs/README.md)
+- Current checkpoint: [docs/handoffs/main-agent-context-checkpoint-p2.md](docs/handoffs/main-agent-context-checkpoint-p2.md)
+- Current Tauri handoff: [docs/handoffs/main-agent-p3-tauri-mvp-host.md](docs/handoffs/main-agent-p3-tauri-mvp-host.md)
+- Beta acceptance checklist: [docs/qa/p2-p3-beta-acceptance.md](docs/qa/p2-p3-beta-acceptance.md)
+- Agent rules: [AGENTS.md](AGENTS.md)
 
-1. **Row 1 — Resting island** (~268px): icon stack, purple pulse ring, alert badge `2`; sessions popover below.
-2. **Row 2 — Peek**: single island (~336px) with alert strip and purple glowing eyes on the peek bump.
-3. **Row 3 — Action**: peek pill + action panel (tabs, `Run generated command?`, Locate / Review).
-4. **Row 4 — Expression system**: click a mood card to update peek faces on rows 2–3; click islands to cycle moods.
-
-## Run Locally
+## Useful Commands
 
 ```sh
-python3 -m http.server 4173 --directory prototype
+npm run guard:design
+npm run dev:tauri
+npm run build:tauri-mvp
+npm run smoke:real-link
+npm run test:qa:real-link
+npm run test:qa
+npm run build
 ```
 
-Then open:
+`npm run package:mac` currently points to `npm run build:tauri-mvp`.
 
-```text
-http://127.0.0.1:4173
-```
+## Project Layout
+
+- `apps/desktop`: Web UI surface and Browser QA.
+- `apps/tauri`: current macOS Tauri MVP host.
+- `packages/local-manager-api`: localhost Manager API.
+- `packages/local-manager-mock`: Manager runtime/state/action projection core.
+- `packages/cli-adapter-real`: real CLI wrapper/notch-run adapter.
+- `docs/contracts`: active runtime/API/action contracts.
+- `docs/handoffs`: checkpoint and historical implementation handoffs.
+- `design`, `output`, `prototype`: design sources, visual baselines, and historical prototypes.

@@ -15,7 +15,7 @@ P2 runtime 已进入 beta-ready 状态：
 
 P3 当前路线切到 Tauri MVP host：先用 Tauri 承载顶部刘海区域附近的小尺寸 WebView surface，并由 Tauri 启动 app-managed Local Manager API。这个 MVP 复用现有 Desktop Web UI / Manager API / real CLI adapter 成果，但不把窗口做成整屏透明 overlay，也不新增 Desktop 进程控制能力。
 
-Electron active code 已清理；历史 handoff/checkpoint 保留它作为废弃 spike 的记录。后续 packaging / signing / notarization 应围绕 Tauri MVP 或 formal SwiftUI/AppKit host 继续，不恢复 Electron 路线。
+Electron active code 已清理；当前 checkpoint 保留它作为废弃 spike 的原因记录，过期 Electron 独立 handoff 已删除。后续 packaging / signing / notarization 应围绕 Tauri MVP 或 formal SwiftUI/AppKit host 继续，不恢复 Electron 路线。
 
 ## 2. 自动化入口
 
@@ -125,7 +125,7 @@ Tauri MVP 当前目标：
 
 - 当前本机还没有 Developer ID 签名和 Apple notarization 后的 `.app` / `.dmg` release artifact。
 - 当前 Tauri MVP 是正确路线上的本地 Web UI host，但还不是 SwiftUI/AppKit formal MVP，也还没有完成真实安装包、签名、公证和升级迁移 QA。
-- Electron active code 已清理；历史 Electron handoff 仅作为废弃 spike 记录。
+- Electron active code 已清理；过期 Electron 独立 handoff 已删除，废弃原因以 checkpoint / AGENTS / docs index 为准。
 - 还没有自动更新。
 - real-link Browser QA 覆盖 timeout UI，但还不覆盖 Tauri packaged app shell。
 - Tauri signed/notarized release gate 还未接入。

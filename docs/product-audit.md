@@ -2,15 +2,15 @@
 
 生成日期：2026-06-06
 
-对应原型：[prototype/interactive.html](../prototype/interactive.html)
+对应原型：[prototype/interactive-v2.html](../prototype/interactive-v2.html)
 
 ## 生成方法
 
 这份文档基于 Product Design 的审计流程生成：
 
 - 读取仓库说明：[README.md](../README.md)、[docs/效果说明.md](./效果说明.md)。
-- 读取原型结构与状态机：[prototype/interactive.html](../prototype/interactive.html)、[prototype/interactive.js](../prototype/interactive.js)、[prototype/interactive.css](../prototype/interactive.css)。
-- 用本地浏览器打开 `http://localhost:4173/interactive.html`，捕获关键状态截图。
+- 读取原型结构与状态机：[prototype/interactive-v2.html](../prototype/interactive-v2.html)、[prototype/interactive-v2.js](../prototype/interactive-v2.js)、[prototype/interactive-v2.css](../prototype/interactive-v2.css)。
+- 用本地浏览器打开 `http://localhost:4173/interactive-v2.html`，捕获关键状态截图。
 - 检查桌面视口 `1280x720` 和窄视口 `390x844`。
 - 将结论按 UX、交互、可访问性、产品化风险拆分。
 
@@ -59,7 +59,7 @@ Notch AI Monitor 是一个围绕 MacBook 刘海区域呈现的 AI CLI 会话监�
 | 等待 waiting | 需要用户确认 | 一瞥 | 中高 |
 | 愤怒 angry | 高风险命令/危险操作 | 探出 | 最高 |
 
-当前状态机实现位于 [prototype/interactive.js](../prototype/interactive.js)，核心规则是 `restingStateForMood()`：`none -> dormant`、`angry -> peek`、其他情绪进入 `glance`。
+当前状态机实现位于 [prototype/interactive-v2.js](../prototype/interactive-v2.js)，核心规则是 `restingStateForMood()`：`none -> dormant`、`angry -> peek`、其他情绪进入 `glance`。
 
 ## 当前原型覆盖范围
 
